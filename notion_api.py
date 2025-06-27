@@ -92,7 +92,7 @@ class KeyCache:
             init_keys = {k: v for k, v in api_keys.items() if v is not None}
             # Initialize with MCP server URL and API keys
             self._notion_agent = Notionagent(
-                mcp_server_url='https://mcp.composio.dev/composio/server/fa68ab92-4f30-48a3-8430-26b971efa5a1/mcp',
+                mcp_server_url=os.getenv('mcp_server_url'),
                 api_keys=init_keys
             )
             self._last_keys_hash = current_hash
