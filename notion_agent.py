@@ -5,14 +5,8 @@ from pydantic_ai import Agent
 from pydantic_ai.messages import ModelMessage
 from dataclasses import dataclass
 from composio_langgraph import Action, ComposioToolSet, App
-from dotenv import load_dotenv
-load_dotenv()
-import os
-import logfire
-logfire_token = os.getenv('logfire_token')
-if logfire_token:
-    logfire.configure(token=logfire_token)
-    logfire.instrument_pydantic_ai()
+
+
 
 @dataclass
 class Message_state:
@@ -32,7 +26,7 @@ class Notionagent:
 
     async def chat(self,query:str):
         async with self.agent.run_mcp_servers():  
-            result = self.agent.run_sync(query, message_history=self.memory.messages)
+            result = await self.agent.run(query, message_history=self.memory.messages)
             self.memory.messages=result.all_messages()
         return result.output
 
